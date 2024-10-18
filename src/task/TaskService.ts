@@ -3,9 +3,6 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 
 @Injectable()
 export class TaskService {
-  // We will be storing our task in this array,
-  // to maintain simplicity of this article
-
   private tasks: Task[] = [];
 
   getTasks() {
@@ -38,12 +35,20 @@ export class TaskService {
   updateTask(updatedTask: Task): Task {
     const result = this.tasks.find((item) => item.id === updatedTask.id);
     if (result) {
-      // logica de update
       result.description = updatedTask.description;
       result.id = result.id;
       (result.title = updatedTask.title), (result.updatedAt = new Date());
       console.log('Task updated');
       return result;
+    } else {
+      throw new HttpException('Task not found', HttpStatus.FORBIDDEN);
+    }
+  }
+
+  deleteTask(id: number) {
+    const result = this.tasks.find((item) => item.id === id);
+    if (result) {
+       result;
     } else {
       throw new HttpException('Task not found', HttpStatus.FORBIDDEN);
     }

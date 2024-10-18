@@ -30,9 +30,9 @@ export class TaskController {
     if (id) {
       return this.taskService.getTaskById(id);
     }
-    return 'Id not found!';
+    return 'Task not found!';
   }
-  
+
   @Put()
   async updateTask(@Body() task: Task) {
     return this.taskService.updateTask(task);
