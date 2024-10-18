@@ -6,6 +6,7 @@ import {
   Param,
   ParseIntPipe,
   Put,
+  Delete,
 } from '@nestjs/common';
 import { Task } from 'src/dto/task.dto';
 import { TaskService } from './TaskService';
@@ -36,5 +37,10 @@ export class TaskController {
   @Put()
   async updateTask(@Body() task: Task) {
     return this.taskService.updateTask(task);
+  }
+
+  @Delete(':id')
+  async deleteTask(@Param('id', ParseIntPipe) id: number) {
+    return this.taskService.deleteTask(id);
   }
 }

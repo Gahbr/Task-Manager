@@ -45,12 +45,12 @@ export class TaskService {
     }
   }
 
-  deleteTask(id: number) {
-    const result = this.tasks.find((item) => item.id === id);
-    if (result) {
-       result;
-    } else {
-      throw new HttpException('Task not found', HttpStatus.FORBIDDEN);
+  deleteTask(id: number): string {
+    const deleteTask = this.tasks.find((item) => item.id === id);
+    if (deleteTask) {
+      this.tasks = this.tasks.filter((task) => task.id !== id);
+      return 'User deleted';
     }
+    return 'Could not delete user';
   }
 }
