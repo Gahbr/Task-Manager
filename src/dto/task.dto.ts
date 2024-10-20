@@ -10,9 +10,9 @@ import { TaskStatus } from 'src/task/TaskStatus';
 
 export class Task {
   @ApiProperty()
-  @IsInt()
+  @IsString()
   @IsNotEmpty()
-  id: number;
+  id: string;
 
   @ApiProperty()
   @IsString()

@@ -1,5 +1,6 @@
 import { Task } from '../dto/task.dto';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class TaskService {
@@ -11,7 +12,7 @@ export class TaskService {
 
   addTask(task: Task): Task {
     const taskToAdd: Task = {
-      id: this.tasks.length + 1,
+      id: uuidv4(),
       title: task.title,
       description: task.description,
       createdAt: new Date(),
@@ -23,7 +24,7 @@ export class TaskService {
     return taskToAdd;
   }
 
-  getTaskById(id: number): Task {
+  getTaskById(id: string): Task {
     const result = this.tasks.find((item) => item.id === id);
     if (result) {
       return result;
@@ -52,7 +53,7 @@ export class TaskService {
     }
   }
 
-  deleteTask(id: number): string {
+  deleteTask(id: string): string {
     const deleteTask = this.tasks.find((item) => item.id === id);
     if (deleteTask) {
       this.tasks = this.tasks.filter((task) => task.id !== id);

@@ -32,7 +32,7 @@ export class TaskController {
 
   @ApiOperation({ summary: 'List task by ID' })
   @Get(':id')
-  async listTaskById(@Param('id', ParseIntPipe) id: number) {
+  async listTaskById(@Param('id', ParseIntPipe) id: string) {
     if (id) {
       return this.taskService.getTaskById(id);
     }
@@ -47,7 +47,7 @@ export class TaskController {
 
   @ApiOperation({ summary: 'Delete a task' })
   @Delete(':id')
-  async deleteTask(@Param('id', ParseIntPipe) id: number) {
+  async deleteTask(@Param('id', ParseIntPipe) id: string) {
     return this.taskService.deleteTask(id);
   }
 }
