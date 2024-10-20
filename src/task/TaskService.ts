@@ -15,7 +15,7 @@ export class TaskService {
       title: task.title,
       description: task.description,
       createdAt: new Date(),
-      status: 0,
+      status: task.status,
       createdBy: '',
       updatedAt: undefined,
     };
@@ -28,20 +28,27 @@ export class TaskService {
     if (result) {
       return result;
     } else {
-      throw new HttpException('Task not found', HttpStatus.FORBIDDEN);
+      throw new HttpException('Task not found', HttpStatus.NOT_FOUND);
     }
   }
 
   updateTask(updatedTask: Task): Task {
-    const result = this.tasks.find((item) => item.id === updatedTask.id);
-    if (result) {
-      result.description = updatedTask.description;
-      result.id = result.id;
-      (result.title = updatedTask.title), (result.updatedAt = new Date());
+    const taskIndex = this.tasks.findIndex(
+      (item) => item.id === updatedTask.id,
+    );
+
+    if (taskIndex !== -1) {
+      const taskToUpdate = this.tasks[taskIndex];
+
+      taskToUpdate.description = updatedTask.description;
+      taskToUpdate.title = updatedTask.title;
+      taskToUpdate.status = updatedTask.status;
+      taskToUpdate.updatedAt = new Date();
+
       console.log('Task updated');
-      return result;
+      return taskToUpdate;
     } else {
-      throw new HttpException('Task not found', HttpStatus.FORBIDDEN);
+      throw new HttpException('Task not found', HttpStatus.NOT_FOUND);
     }
   }
 

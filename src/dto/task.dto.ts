@@ -6,6 +6,7 @@ import {
   IsNotEmpty,
   IsOptional,
 } from 'class-validator';
+import { TaskStatus } from 'src/task/TaskStatus';
 
 export class Task {
   @ApiProperty()
@@ -24,10 +25,10 @@ export class Task {
   @IsOptional()
   description: string;
 
-  @ApiProperty()
+  @ApiProperty({ enum: TaskStatus })
   @IsInt()
   @IsNotEmpty()
-  status: number;
+  status: TaskStatus;
 
   @ApiProperty()
   @IsOptional()
