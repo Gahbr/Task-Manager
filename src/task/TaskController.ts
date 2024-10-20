@@ -39,7 +39,7 @@ export class TaskController {
     return 'Task not found!';
   }
 
-  @ApiOperation({ summary: 'Updatete a task' })
+  @ApiOperation({ summary: 'Update a task' })
   @Put()
   async updateTask(@Body() task: Task) {
     return this.taskService.updateTask(task);

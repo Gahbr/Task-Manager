@@ -8,7 +8,7 @@ async function bootstrap() {
   //Swagger
   const config = new DocumentBuilder()
     .setTitle('Task manager API')
-    .setDescription('Swagger for the API')
+    .setDescription('Documentation for the API')
     .setVersion('1.0')
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
