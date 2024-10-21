@@ -18,11 +18,11 @@ export class TaskService {
   async addTask(taskData: Partial<Task>): Promise<TaskModel> {
     const taskToAdd: TaskModel = {
       ...taskData,
-      id: uuidv4(), // Generate a new ID
+      id: uuidv4(),
       createdAt: new Date(),
-      createdBy: 'Admin', // Set to a proper user if necessary
+      createdBy: 'Admin',
       updatedAt: null,
-    } as TaskModel; // Cast to TaskModel to satisfy TypeScript
+    } as TaskModel;
 
     return this.taskModel.create(taskToAdd);
   }

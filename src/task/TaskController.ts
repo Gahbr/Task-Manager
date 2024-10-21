@@ -41,7 +41,7 @@ export class TaskController {
 
   @ApiOperation({ summary: 'Update a task' })
   @Put()
-  async updateTask(@Body() task: Partial<Task>) {
+  async updateTask(@Body() task: Task) {
     return this.taskService.updateTask(task);
   }
 
