@@ -1,64 +1,42 @@
 import { Task } from '../dto/task.dto';
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/sequelize';
+import { TaskModel } from './TaskModel';
 import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class TaskService {
-  private tasks: Task[] = [];
+  constructor(
+    @InjectModel(TaskModel)
+    private readonly taskModel: typeof TaskModel,
+  ) {}
 
-  getTasks() {
-    return this.tasks;
+  getTasks(): Promise<TaskModel[]> {
+    return this.taskModel.findAll();
   }
 
-  addTask(task: Task): Task {
-    const taskToAdd: Task = {
-      id: uuidv4(),
-      title: task.title,
-      description: task.description,
+  async addTask(taskData: Partial<Task>): Promise<TaskModel> {
+    const taskToAdd: TaskModel = {
+      ...taskData,
+      id: uuidv4(), // Generate a new ID
       createdAt: new Date(),
-      status: task.status,
-      createdBy: '',
-      updatedAt: undefined,
-    };
-    this.tasks.push(taskToAdd);
-    return taskToAdd;
+      createdBy: 'Admin', // Set to a proper user if necessary
+      updatedAt: null,
+    } as TaskModel; // Cast to TaskModel to satisfy TypeScript
+
+    return this.taskModel.create(taskToAdd);
   }
 
-  getTaskById(id: string): Task {
-    const result = this.tasks.find((item) => item.id === id);
-    if (result) {
-      return result;
-    } else {
-      throw new HttpException('Task not found', HttpStatus.NOT_FOUND);
-    }
+  async getTaskById(id: string): Promise<TaskModel> {
+    return this.taskModel.findByPk(id);
   }
 
-  updateTask(updatedTask: Task): Task {
-    const taskIndex = this.tasks.findIndex(
-      (item) => item.id === updatedTask.id,
-    );
-
-    if (taskIndex !== -1) {
-      const taskToUpdate = this.tasks[taskIndex];
-
-      taskToUpdate.description = updatedTask.description;
-      taskToUpdate.title = updatedTask.title;
-      taskToUpdate.status = updatedTask.status;
-      taskToUpdate.updatedAt = new Date();
-
-      console.log('Task updated');
-      return taskToUpdate;
-    } else {
-      throw new HttpException('Task not found', HttpStatus.NOT_FOUND);
-    }
+  async updateTask(taskData: Partial<Task>): Promise<TaskModel> {
+    await this.taskModel.update(taskData, { where: { id: taskData.id } });
+    return this.taskModel.findByPk(taskData.id) as Promise<TaskModel>;
   }
 
-  deleteTask(id: string): string {
-    const deleteTask = this.tasks.find((item) => item.id === id);
-    if (deleteTask) {
-      this.tasks = this.tasks.filter((task) => task.id !== id);
-      return 'User deleted';
-    }
-    return 'Could not delete user';
+  async deleteTask(id: string): Promise<void> {
+    await this.taskModel.destroy({ where: { id } });
   }
 }

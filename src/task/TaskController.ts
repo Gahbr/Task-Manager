@@ -4,7 +4,6 @@ import {
   Get,
   Post,
   Param,
-  ParseIntPipe,
   Put,
   Delete,
 } from '@nestjs/common';
@@ -32,22 +31,23 @@ export class TaskController {
 
   @ApiOperation({ summary: 'List task by ID' })
   @Get(':id')
-  async listTaskById(@Param('id', ParseIntPipe) id: string) {
-    if (id) {
-      return this.taskService.getTaskById(id);
+  async listTaskById(@Param('id') id: string) {
+    const task = await this.taskService.getTaskById(id);
+    if (task) {
+      return task;
     }
-    return 'Task not found!';
+    return { message: 'Task not found!' };
   }
 
   @ApiOperation({ summary: 'Update a task' })
   @Put()
-  async updateTask(@Body() task: Task) {
+  async updateTask(@Body() task: Partial<Task>) {
     return this.taskService.updateTask(task);
   }
 
   @ApiOperation({ summary: 'Delete a task' })
   @Delete(':id')
-  async deleteTask(@Param('id', ParseIntPipe) id: string) {
+  async deleteTask(@Param('id') id: string) {
     return this.taskService.deleteTask(id);
   }
 }
