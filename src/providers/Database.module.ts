@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { TaskModel } from 'src/task/TaskModel'; // Adjust the path if necessary
+import { TaskModel } from 'src/task/TaskModel';
 
 @Module({
   imports: [

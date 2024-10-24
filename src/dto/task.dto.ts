@@ -1,4 +1,4 @@
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiHideProperty, ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
   IsInt,
   IsString,
@@ -9,17 +9,17 @@ import {
 import { TaskStatus } from 'src/task/TaskStatus';
 
 export class Task {
-  @ApiProperty()
+  @ApiHideProperty()
   @IsString()
   @IsNotEmpty()
   id: string;
 
-  @ApiProperty()
+  @ApiProperty({example:"Task title"})
   @IsString()
   @IsNotEmpty()
   title: string;
 
-  @ApiProperty()
+  @ApiProperty({example:"Task description"})
   @ApiPropertyOptional()
   @IsString()
   @IsOptional()
@@ -30,7 +30,7 @@ export class Task {
   @IsNotEmpty()
   status: TaskStatus;
 
-  @ApiProperty()
+  @ApiHideProperty()
   @IsOptional()
   @IsDate()
   @IsNotEmpty()
@@ -38,12 +38,12 @@ export class Task {
 
   @ApiProperty()
   @ApiPropertyOptional()
+  @ApiProperty({example:"Admin"})
   @IsOptional()
   @IsString()
   createdBy: string;
 
-  @ApiProperty()
-  @ApiPropertyOptional()
+  @ApiHideProperty()
   @IsOptional()
   @IsDate()
   updatedAt: Date;

@@ -21,7 +21,6 @@ export class TaskService {
       id: uuidv4(),
       createdAt: new Date(),
       createdBy: 'Admin',
-      updatedAt: null,
     } as TaskModel;
 
     return this.taskModel.create(taskToAdd);
