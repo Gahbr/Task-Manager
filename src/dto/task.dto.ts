@@ -9,7 +9,7 @@ import {
 import { TaskStatus } from 'src/task/TaskStatus';
 
 export class Task {
-  @ApiHideProperty()
+  @ApiProperty()
   @IsString()
   @IsNotEmpty()
   id: string;
