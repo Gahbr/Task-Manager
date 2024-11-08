@@ -7,7 +7,7 @@ import {
   Put,
   Delete,
 } from '@nestjs/common';
-import { Task } from 'src/dto/task.dto';
+import { Task } from 'src/task/dto/task.dto';
 import { TaskService } from './TaskService';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 

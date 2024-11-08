@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { TaskService } from './TaskService';
-import { TaskModel } from './TaskModel';
 import { getModelToken } from '@nestjs/sequelize';
 import { v4 as uuidv4 } from 'uuid';
 import { ModelStatic } from 'sequelize-typescript';
+import { TaskModel } from '../src/task/TaskModel';
+import { TaskService } from '../src/task/TaskService';
 
 interface TaskModelStatic extends ModelStatic<TaskModel> {
   findAll: jest.Mock;
