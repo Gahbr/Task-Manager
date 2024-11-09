@@ -1,5 +1,6 @@
-import { Module } from '@nestjs/common';
+import { Module, OnModuleInit } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
+import { SeederService } from 'src/seed/seed';
 import { TaskModel } from 'src/task/TaskModel';
 
 @Module({
@@ -18,6 +19,13 @@ import { TaskModel } from 'src/task/TaskModel';
       }),
     }),
   ],
+  providers: [SeederService],
   exports: [SequelizeModule],
 })
-export class DatabaseModule {}
+export class DatabaseModule implements OnModuleInit {
+  constructor(private readonly seederService: SeederService) {}
+
+  async onModuleInit() {
+    await this.seederService.seed();
+  }
+}
